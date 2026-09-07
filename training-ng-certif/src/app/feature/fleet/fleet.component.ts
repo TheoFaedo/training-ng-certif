@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { VehicleService } from '../../core/provider/service/vehicle.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -6,6 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   selector: 'app-fleet',
   imports: [],
   templateUrl: './fleet.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './fleet.component.less',
 })
 export class FleetComponent {
