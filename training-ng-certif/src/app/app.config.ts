@@ -2,6 +2,7 @@ import {
   ApplicationConfig,
   InjectionToken,
   provideZoneChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
@@ -17,7 +18,7 @@ export const APP_CONFIG = new InjectionToken<ApplicationConfig>('APP_CONFIG');
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
     {
       provide: APP_CONFIG,
