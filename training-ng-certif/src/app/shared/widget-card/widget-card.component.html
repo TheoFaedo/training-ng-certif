@@ -1,0 +1,17 @@
+<div class="widget-card">
+  @if (isLoading()) {
+    @if (loadingTemplate(); as template) {
+     <ng-container [ngTemplateOutlet]=" template" />
+    }
+  } @else {
+    @if (isError()) {
+      @if (errorTemplate(); as template) {
+       <ng-container [ngTemplateOutlet]="template" />
+      }
+    } @else {
+      <ng-content select="widget-header" />
+      <ng-content />
+      <ng-content select="widget-footer" />
+    }
+  }
+</div>

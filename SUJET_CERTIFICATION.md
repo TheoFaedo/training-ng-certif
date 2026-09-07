@@ -1,15 +1,47 @@
-# 🚀 Sujet de Projet : *FleetPulse – Plateforme de Gestion de Flotte & Missions*
+# 🚀 Sujet de Projet : _FleetPulse – Plateforme de Gestion de Flotte & Missions_
 
 ## Contextualisation Métier
+
 Vous êtes recruté(e) en tant que Lead / Senior Developer Angular pour concevoir le front-end de **FleetPulse**, une application de suivi en temps réel de véhicules de livraison et de leurs missions logistiques associées.
 
 L'application doit gérer des flux de données à haute fréquence, un filtrage avancé, un formulaire de création de mission complexe, un tableau de bord modulaire et un contrôle d'accès sécurisé.
 
 ---
 
+## 🧭 Ce que vous devez réaliser concrètement
+
+Vous devez livrer une **application Angular fonctionnelle**, même si les données sont simulées et qu'aucun véritable backend n'est demandé. L'objectif n'est pas seulement de créer des composants isolés : les fonctionnalités doivent être intégrées dans un parcours utilisateur cohérent.
+
+### Parcours minimal attendu
+
+1. Depuis le **tableau de bord**, l'utilisateur consulte les indicateurs de la flotte, les alertes critiques et l'état des véhicules.
+2. Depuis la page **Flotte**, il peut rechercher ou filtrer les véhicules, puis ouvrir la fiche d'un véhicule.
+3. La fiche d'un véhicule affiche au minimum ses informations générales et une télémétrie simulée en temps réel.
+4. Depuis la page **Création de mission**, l'utilisateur sélectionne un véhicule, ajoute plusieurs étapes à l'itinéraire, renseigne les dates et soumet le formulaire.
+5. Une tentative de navigation avec un formulaire modifié mais non enregistré doit être bloquée par une confirmation.
+6. Les accès aux pages protégées doivent dépendre d'un rôle simulé (`ADMIN` ou `FLEET_MANAGER`).
+
+### Données et périmètre
+
+- Aucun backend réel n'est requis : utilisez des données mockées dans des services et simulez les délais, erreurs et disponibilités d'un appel API.
+- Préparez au minimum **5 véhicules**, plusieurs alertes et quelques missions afin que les listes, filtres et métriques soient réellement visibles.
+- Un véhicule doit comporter au moins un identifiant, une immatriculation, un type, un statut, un niveau de carburant et une position GPS.
+- Les pages doivent être accessibles via les routes `/dashboard`, `/fleet`, `/fleet/:id/details`, `/fleet/:id/telemetry` et `/missions/new`.
+- Le rendu attendu est une interface utilisable et lisible ; le design peut rester simple. La priorité est donnée au fonctionnement, à l'architecture Angular et à la qualité du code.
+
+### Livrables attendus
+
+- Le code source Angular organisé par domaines ou fonctionnalités.
+- Une courte documentation dans le `README` expliquant l'installation, le lancement, les rôles simulés et les choix d'architecture.
+- Les tests unitaires associés aux composants, services, guards, validators et comportements importants.
+- Une application qui se lance sans backend et dont les fonctionnalités principales sont démontrables en quelques clics.
+
+Les exigences détaillées ci-dessous indiquent les techniques Angular qui doivent apparaître dans cette application. Vous pouvez ajouter des fonctionnalités, mais ne remplacez pas une exigence par une simple explication théorique ou du code non utilisé.
+
 ## 📋 Cahier des Charges Technique & Fonctionnel
 
 ### 1. Architecture & Routage Avancé (`Advanced Routing & Architecture`)
+
 - **Lazy-Loading & Structure** :
   - L'application doit comporter au moins 2 sous-modules / sous-domaines sous chargement différé (Lazy-loading) :
     1. `/dashboard` (Tableau de bord interactif)
@@ -27,6 +59,7 @@ L'application doit gérer des flux de données à haute fréquence, un filtrage 
 ---
 
 ### 2. Composants Avancés & Architecture UI (`Advanced & Intermediate Components`)
+
 - **Container vs. Presentation Pattern** :
   - Séparer strictement les composants conteneurs (gestion de l'état, appels services, injection) des composants de présentation (composants "purs", axés sur l'affichage et l'émission d'évènements).
 - **Projection de Contenu Avancée** :
@@ -42,6 +75,7 @@ L'application doit gérer des flux de données à haute fréquence, un filtrage 
 ---
 
 ### 3. Gestion d'État, Signals & RxJS Avancé (`Signals, RxJS & State Management`)
+
 - **Signals & Computed** :
   - Gérer l'état réactif global ou local de la flotte à l'aide de **Signals** Angular (`signal()`, `computed()`, `effect()`).
   - Dériver des métriques calculées en temps réel : nombre de véhicules actifs, taux moyen de carburant, alertes critiques.
@@ -55,6 +89,7 @@ L'application doit gérer des flux de données à haute fréquence, un filtrage 
 ---
 
 ### 4. Formulaires Avancés (`Advanced Forms`)
+
 - **Reactive Forms** :
   - Créer un formulaire réactif complet de **Planification de Mission** comprenant :
     - Un champ véhicule (sélection).
@@ -67,6 +102,7 @@ L'application doit gérer des flux de données à haute fréquence, un filtrage 
 ---
 
 ### 5. Performance & Pipes (`Performance & Pipes`)
+
 - **Change Detection & TrackBy** :
   - Passer l'ensemble de vos composants de présentation en `ChangeDetectionStrategy.OnPush`.
   - Utiliser la nouvelle syntaxe `@for` avec une expression `track` pertinente (ou `*ngFor` avec une fonction `trackBy`) sur toutes les listes dynamiques.
@@ -78,15 +114,17 @@ L'application doit gérer des flux de données à haute fréquence, un filtrage 
 ---
 
 ### 6. TypeScript Avancé (`TypeScript & Typing`)
+
 - Définir des types et interfaces rigoureux :
   - Utilisation de **Generics** pour vos structures de réponses d'API ou d'état (`ApiResponse<T>`, `StateSlice<T>`).
   - Utilisation des **Utility Types** (`Pick`, `Omit`, `Partial`, `Readonly`, `Record`).
   - Utilisation des **Union Types** et des **Enums** pour classifier les types de véhicules et les statuts de mission.
-  - Utilisation du *Nullish coalescing operator* (`??`) et du *Spread syntax* (`...`) de manière idiomatique et immuable.
+  - Utilisation du _Nullish coalescing operator_ (`??`) et du _Spread syntax_ (`...`) de manière idiomatique et immuable.
 
 ---
 
 ### 7. Tests Unitaires (`Testing`)
+
 - Écrire des tests unitaires complets avec `TestBed` :
   - Tester le composant conteneur principal à l'aide de `ComponentFixture` et `DebugElement`.
   - Tester l'interaction utilisateur sur un formulaire (simulation de saisie et vérification des déclenchements de validation).

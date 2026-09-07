@@ -1,0 +1,9 @@
+<div>
+  <label for="severity-select">Choose a severity: </label>
+
+  <select name="severities" id="severity-select">
+    @for (severity of severities; track severity) {
+      <option [value]="severity">{{ severity }}</option>
+    }
+  </select>
+</div>
