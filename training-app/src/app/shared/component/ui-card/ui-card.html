@@ -1,0 +1,11 @@
+<div class="" [aria-labelledby]="titleId() ?? null">
+  <header>
+    <ng-content select="[card-title]" />
+  </header>
+  <div>
+    <ng-content />
+  </div>
+  <footer>
+    <ng-content select="[card-actions]" />
+  </footer>
+</div>

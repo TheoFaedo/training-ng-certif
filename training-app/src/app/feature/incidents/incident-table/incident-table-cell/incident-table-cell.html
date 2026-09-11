@@ -1,0 +1,13 @@
+<td>{{ incident().id }}</td>
+<td>{{ incident().title }}</td>
+<td>{{ incident().status }}</td>
+<td [incidentPriority]="incident().priority">
+  @if (priorityTemplate()) {
+  <ng-container
+    [ngTemplateOutlet]="priorityTemplate()"
+    [ngTemplateOutletContext]="{$implicit: incident().priority}"
+  />
+  } @else { {{ incident().priority }} }
+</td>
+<td>{{ incident().updatedAt.toLocaleDateString() }}</td>
+<td>{{ incident().createdAt.toLocaleDateString() }}</td>

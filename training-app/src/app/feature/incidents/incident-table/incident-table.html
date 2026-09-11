@@ -1,0 +1,27 @@
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Updated at</th>
+      <th>Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (incident of incidents(); track incident.id) {
+    <tr
+      app-incident-table-cell
+      [incident]="incident"
+      [priorityTemplate]="test"
+      (click)="select(incident.id)"
+      [class.selected]="incident.id === selectedId()"
+    ></tr>
+    }
+  </tbody>
+</table>
+
+<ng-template #test let-priority>
+  <p>{{ priority }}</p>
+</ng-template>

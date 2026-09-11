@@ -1,0 +1,29 @@
+<form (submit)="onSubmit($event)">
+  <label for="title">Title:</label>
+  <input id="title" type="text" [formField]="form.title" />
+  <label for="description">Description:</label>
+  <textarea id="description" [formField]="form.description"></textarea>
+  @if (mode() === 'edit') {
+  <label for="status">Status:</label>
+  <select id="status" [formField]="form.status">
+    @for (status of incidentStatuses; track status.value) {
+    <option [value]="status.value">{{ status.label }}</option>
+    }
+  </select>
+  <p>
+    @for(errorMessage of errorMessages(); track $index) { {{ errorMessage }} <br />
+    }
+  </p>
+  }
+  <label for="priority">Priority:</label>
+  <select id="priority" [formField]="form.priority">
+    @for (priority of incidentPriorities; track priority.value) {
+    <option [value]="priority.value">{{ priority.label }}</option>
+    }
+  </select>
+  <p>
+    @for(errorMessage of errorMessages(); track $index) { {{ errorMessage }} <br />
+    }
+  </p>
+  <button>Add</button>
+</form>

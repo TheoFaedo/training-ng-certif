@@ -1,0 +1,8 @@
+<app-ui-card>
+  <h3 card-header>{{ incident().title }}</h3>
+  <p [innerHTML]="incident().description"></p>
+  <div card-actions>
+    <button (click)="navigateEdit()">Edit</button>
+    <button (click)="remove()">Delete</button>
+  </div>
+</app-ui-card>

@@ -1,0 +1,13 @@
+<div class="incidents">
+  <div class="incidents__list">
+    <app-search-bar class="incidents__list_search" />
+    <button (click)="navigateToCreateIncident()">New</button>
+    @if (!incidentsResource.hasValue()) {
+    <p>Loading</p>
+    } @else {
+    <app-incident-table [incidents]="incidentsResource.value()" [(selectedId)]="selectedId">
+    </app-incident-table>
+    }
+  </div>
+  <router-outlet class="incidents__outlet" />
+</div>
