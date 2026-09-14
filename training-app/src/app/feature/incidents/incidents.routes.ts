@@ -18,6 +18,9 @@ export const routes: Routes = [
   {
     path: ':id/edit',
     loadComponent: () => import('./incident-edit/incident-edit'),
+    resolve: {
+      incident: incidentResolver,
+    },
   },
   { path: '**', redirectTo: 'new' },
 ];

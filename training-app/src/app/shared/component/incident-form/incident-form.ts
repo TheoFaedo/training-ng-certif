@@ -1,7 +1,17 @@
 import { form, FormField, maxLength, minLength, required } from '@angular/forms/signals';
 import { Incident, IncidentPriority, IncidentStatus } from '../../../shared/model/incident.model';
 import { IncidentService } from '../../../core/providers/service/incident-service';
-import { Component, computed, effect, inject, input, model, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+  model,
+  output,
+  signal,
+} from '@angular/core';
 
 type FormMode = 'create' | 'edit';
 
@@ -15,7 +25,7 @@ interface IncidentFormModel {
 const EMPTY_FORM: IncidentFormModel = {
   title: '',
   description: '',
-  status: 'new',
+  status: 'new' as IncidentStatus,
   priority: 'low',
 };
 
@@ -32,8 +42,17 @@ export class IncidentForm {
   dirtyUpdate = output<boolean>();
 
   mode = computed<FormMode>(() => (this.incident() ? 'edit' : 'create'));
+  initValue = computed(() => this.getInitValue(this.mode()));
 
-  private readonly createIncidentModel = signal<IncidentFormModel>(this.getInitValue());
+  private getInitValue(mode: string): IncidentFormModel {
+    console.log(mode);
+    if (mode === 'create') {
+      return EMPTY_FORM;
+    }
+    return this.incident() as IncidentFormModel;
+  }
+
+  private readonly createIncidentModel = linkedSignal<IncidentFormModel>(this.initValue);
   protected readonly form = form(this.createIncidentModel, (schemaPath) => {
     const titleMessage = 'Title must be between 5 and 100 characters.';
 
@@ -41,6 +60,7 @@ export class IncidentForm {
     minLength(schemaPath.title, 5, { message: titleMessage });
     maxLength(schemaPath.title, 100, { message: titleMessage });
     required(schemaPath.priority);
+    required(schemaPath.status);
     required(schemaPath.description, {
       when: ({ valueOf }) => valueOf(schemaPath.priority) === 'critical',
       message: 'Description required for critical incidents.',
@@ -90,6 +110,11 @@ export class IncidentForm {
 
   constructor() {
     effect(() => {
+      console.log(this.incident());
+      console.log(this.mode());
+    });
+
+    effect(() => {
       this.dirtyUpdate.emit(this.form().dirty());
     });
   }
@@ -101,7 +126,11 @@ export class IncidentForm {
       return;
     }
 
-    this.createIncident();
+    if (this.mode() === 'create') {
+      this.createIncident();
+    } else {
+      this.editIncident();
+    }
   }
 
   private createIncident() {
@@ -112,26 +141,24 @@ export class IncidentForm {
         priority: this.form.priority().value(),
         tags: [],
       })
-      .subscribe(() => this.form().reset(this.getInitValue()));
+      .subscribe(() => this.form().reset(this.initValue()));
   }
 
   private editIncident() {
-    // TODO
-    // this.incidentService
-    //   .update({
-    //     title: this.form.title().value(),
-    //     description: this.form.description().value(),
-    //     priority: this.form.priority().value(),
-    //     status: this.form.status(),
-    //     tags: [],
-    //   })
-    //   .subscribe(() => this.form().reset(this.getInitValue()));
-  }
-
-  private getInitValue(): IncidentFormModel {
-    if (this.mode() === 'create') {
-      return EMPTY_FORM;
+    const id = this.incident()?.id;
+    if (!id) {
+      return;
     }
-    return this.incident() as IncidentFormModel;
+
+    this.incidentService
+      .update({
+        id: id,
+        title: this.form.title().value(),
+        description: this.form.description().value(),
+        priority: this.form.priority().value(),
+        status: this.form.status().value(),
+        tags: [],
+      })
+      .subscribe((incid) => this.form().reset(incid));
   }
 }

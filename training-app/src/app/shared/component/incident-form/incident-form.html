@@ -25,5 +25,5 @@
     @for(errorMessage of errorMessages(); track $index) { {{ errorMessage }} <br />
     }
   </p>
-  <button>Add</button>
+  <button>{{ mode() === 'create' ? 'Add' : 'Edit' }}</button>
 </form>

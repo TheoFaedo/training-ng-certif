@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { ComponentForm } from '../../../shared/component-form';
 import { IncidentForm } from '../../../shared/component/incident-form/incident-form';
+import { Incident } from '../../../shared/model/incident.model';
 
 @Component({
   imports: [IncidentForm],
@@ -10,6 +11,7 @@ import { IncidentForm } from '../../../shared/component/incident-form/incident-f
 })
 export class IncidentEdit implements ComponentForm {
   public hasUnsavedChanges = signal<boolean>(false);
+  incident = input.required<Incident>();
 
   protected updateUnsavedChanges(value: boolean) {
     this.hasUnsavedChanges.set(value);
